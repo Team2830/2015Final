@@ -29,7 +29,6 @@ public class Robot extends IterativeRobot {
 	Encoder rearLeftEnconder;
 	Encoder rearRightEncoder;
 	
-	
 	// Channels for the wheels e e
 	final int rearRightChannel	= 3;
 	final int frontRightChannel	= 1;
@@ -46,10 +45,8 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-	
     public void robotInit() {
-    	
-
+   
 			robotDrive = new RobotDrive(frontLeftChannel, rearLeftChannel, frontRightChannel, rearRightChannel);
 			robotDrive.setExpiration(0.1);
 			robotDrive.setInvertedMotor(MotorType.kFrontRight, true);	// invert the left side motors
@@ -69,9 +66,6 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Gyro Correction", 0.15);
 			
 			strafingGyro.setSensitivity(.007);
-			
-			
-			
 		
     }
 
@@ -97,14 +91,24 @@ public class Robot extends IterativeRobot {
      */
     public void teleopInit()
     {
+    
+    }
+    public void teleopPeriodic()
+    {
+    	drive();
+        
+    }
+    /**
+     * This function is called periodically during test mode
+     */
+    public void testPeriodic() {
+    
+    }
+    public void drive () {
     	SmartDashboard.putNumber("frontLeftEncoder", frontLeftEncoder.get());
     	SmartDashboard.putNumber("frontRightEncoder", frontRightEncoder.get());
     	SmartDashboard.putNumber("rearLeftEncoder", rearLeftEnconder.get());
     	SmartDashboard.putNumber("rearRightEncoder", rearRightEncoder.get());
-    	
-    	
-    	
-    	
     	
         boolean isTurning = Math.abs(driverStick.getTwist()) > DEADBAND;
         gyroCorrection = SmartDashboard.getNumber("Gyro Correction");
@@ -149,8 +153,7 @@ public class Robot extends IterativeRobot {
         		        //robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),driverStick.getAxis(Joystick.AxisType.kZ), 0);   
         				
         				robotCentric = !robotCentric;
-        				
-
+        	
         			}
         			lastButton2=driverStick.getRawButton(2);
         			
@@ -162,16 +165,9 @@ public class Robot extends IterativeRobot {
         			lastButton3=driverStick.getRawButton(3);
         		
         	}
-        	
         	}
-        robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, strafingGyro.getAngle());   
-    }
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-    
+        
+        robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, strafingGyro.getAngle());
     }
     
 }
