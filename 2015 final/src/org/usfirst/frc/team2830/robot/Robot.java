@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team2830.robot;
 
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -29,11 +31,14 @@ public class Robot extends IterativeRobot {
 	Encoder rearLeftEnconder;
 	Encoder rearRightEncoder;
 	
+	CANTalon elevatorTalon;
+	
 	// Channels for the wheels e e
 	final int rearRightChannel	= 3;
 	final int frontRightChannel	= 1;
 	final int frontLeftChannel	= 0;
 	final int rearLeftChannel	= 2;
+	
 	
 	// channel for Gyro
 	final int gyroChannel = 1;
@@ -41,6 +46,10 @@ public class Robot extends IterativeRobot {
 	// The channel on the driver station that the joystick is connected to
 	final int driverJoystickChannel	= 0;
 	final int operatorJoystickChannel2  = 1;
+	
+	DoubleSolenoid chuck;
+	
+	
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -63,10 +72,15 @@ public class Robot extends IterativeRobot {
 			rearLeftEnconder = new Encoder(4,5);
 			rearRightEncoder = new Encoder(6,7);
 			
+			
 			SmartDashboard.putNumber("Gyro Correction", 0.15);
 			
 			strafingGyro.setSensitivity(.007);
 		
+			elevatorTalon = new CANTalon(1);
+			elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
+			
+			chuck = new DoubleSolenoid( 0, 1);
     }
 
     /**
@@ -75,6 +89,7 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
 
     }
+    final boolean ELEVATOR_ANALOG_INVERTER = true;
     boolean robotCentric= true;
     boolean holdHeading= true;
     boolean lastIsTurning = true;
@@ -93,10 +108,35 @@ public class Robot extends IterativeRobot {
     {
     
     }
+    /**
+     *  everything that runs during teleop
+     */
     public void teleopPeriodic()
     {
+    	
     	drive();
         
+    	double elevatorSpeed;
+    	if (ELEVATOR_ANALOG_INVERTER)
+    	{
+    	elevatorSpeed = operatorStick.getAxis(Joystick.AxisType.kY)*-1;	
+    	}
+    	
+    	else{
+    		elevatorSpeed = operatorStick.getAxis(Joystick.AxisType.kY);
+    	}
+    	
+    	elevatorTalon.set(elevatorSpeed);
+    	
+    	if (operatorStick.getRawButton(2))
+    	{
+    		chuck.set(DoubleSolenoid.Value.kForward);
+    		
+    	}else if(operatorStick.getRawButton(4))
+    	{ 
+    		chuck.set(DoubleSolenoid.Value.kReverse);}
+    	
+    	
     }
     /**
      * This function is called periodically during test mode
