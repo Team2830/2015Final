@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
 	
 	public DoubleSolenoid chuck;
 	ChuckOperator oneToteChuckClose= new ChuckOperator(this, ChuckOperator.CLOSE);
-	LiftingTote liftTote= new LiftingTote(this);
+	LiftingTote liftTote= new LiftingTote(this, 2, .2);
 	Turn turn90 = new Turn(this, 90);
 	DriveForward drive115 = new DriveForward(this, 115);
 	/**
