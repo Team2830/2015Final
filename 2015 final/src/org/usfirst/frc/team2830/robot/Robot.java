@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 	
 	
 	// channel for Gyro
-	final int gyroChannel = 1;
+	final int gyroChannel = 1; 
 	 
 	// The channel on the driver station that the joystick is connected to
 	final int driverJoystickChannel	= 0;
