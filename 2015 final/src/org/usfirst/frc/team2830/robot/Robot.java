@@ -24,14 +24,22 @@ public class Robot extends IterativeRobot {
 	Joystick driverStick;
 	Joystick operatorStick;
 	
+	final int ROBOT_LIFT_TOTE = 0;
+	final int DO_NOTHING = 1;
+	int mode = DO_NOTHING;
+	Step currentStep;
+	int stepNum = 0;
+	int lastStep = -1;
+	
+	
 	public Gyro strafingGyro;
 	
 	Encoder frontLeftEncoder;
 	Encoder frontRightEncoder;
-	Encoder rearLeftEnconder;
+	Encoder rearLeftEncoder;
 	Encoder rearRightEncoder;
 	
-	CANTalon elevatorTalon;
+	public CANTalon elevatorTalon;
 	
 	// Channels for the wheels e e
 	final int rearRightChannel	= 3;
@@ -47,9 +55,10 @@ public class Robot extends IterativeRobot {
 	final int driverJoystickChannel	= 0;
 	final int operatorJoystickChannel2  = 1;
 	
-	DoubleSolenoid chuck;
-	
-	
+	public DoubleSolenoid chuck;
+	ChuckClose oneToteChuckClose= new ChuckClose(this);
+	LiftingTote liftTote= new LiftingTote(this);
+
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -69,7 +78,7 @@ public class Robot extends IterativeRobot {
 			new SmartDashboard();
 			frontLeftEncoder = new Encoder(0,1);
 			frontRightEncoder = new Encoder(2,3);
-			rearLeftEnconder = new Encoder(4,5);
+			rearLeftEncoder = new Encoder(4,5);
 			rearRightEncoder = new Encoder(6,7);
 			
 			
@@ -83,11 +92,45 @@ public class Robot extends IterativeRobot {
 			chuck = new DoubleSolenoid( 0, 1);
     }
 
+    public void autonomousInit()
+    {
+   mode= (int) SmartDashboard.getNumber("Autonomous");
+    }
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-
+    	
+    	switch(mode)
+    	{
+    		case ROBOT_LIFT_TOTE:
+    			switch(stepNum)
+    			{
+    			case 0:
+    				currentStep= oneToteChuckClose;
+    				break;
+    			case 1:
+    				currentStep= liftTote;
+    				break;
+    			case 2:
+    		//
+    				// currentStep= robotTurn90;
+    				break;
+    			}
+    	}
+    	if(lastStep!=stepNum)
+    	{
+    		currentStep.start();
+    	}
+    		lastStep= stepNum;
+    		
+    		currentStep.excecute();
+    		
+    		if(currentStep.isFinished())
+    		{
+    			currentStep.kill();
+    			stepNum ++;
+    		}
     }
     final boolean ELEVATOR_ANALOG_INVERTER = true;
     boolean robotCentric= true;
@@ -147,7 +190,7 @@ public class Robot extends IterativeRobot {
     public void drive () {
     	SmartDashboard.putNumber("frontLeftEncoder", frontLeftEncoder.get());
     	SmartDashboard.putNumber("frontRightEncoder", frontRightEncoder.get());
-    	SmartDashboard.putNumber("rearLeftEncoder", rearLeftEnconder.get());
+    	SmartDashboard.putNumber("rearLeftEncoder", rearLeftEncoder.get());
     	SmartDashboard.putNumber("rearRightEncoder", rearRightEncoder.get());
     	
         boolean isTurning = Math.abs(driverStick.getTwist()) > DEADBAND;

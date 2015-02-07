@@ -2,9 +2,9 @@ package org.usfirst.frc.team2830.robot;
 
 public interface Step {
 	
-	public void Start();
+	public void start();
 	
-	public void execute();
+	public void excecute();
 	
 	public boolean isFinished();
 	
