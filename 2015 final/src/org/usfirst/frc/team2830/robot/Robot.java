@@ -29,7 +29,8 @@ public class Robot extends IterativeRobot {
 	int mode = DO_NOTHING;
 	Step currentStep;
 	int stepNum = 0;
-	int lastStep = -1;
+	int lastStep = -1; 
+	
 	
 	
 	public Gyro strafingGyro;
