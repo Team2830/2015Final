@@ -14,15 +14,15 @@ public class Turn180 implements Step{
 	public void Start() {
 		// TODO Auto-generated method stub
 		caller.robotDrive.mecanumDrive_Cartesian(0,0,0,0);
-		caller.gyro;
+		caller.strafingGyro;
     
 	}
 
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-		strafingGyro.reset();
-		if (strafingGyro = 0)
+		caller.strafingGyro.reset();
+		if (caller.strafingGyro = 0)
 		{
 			robotDrive.mecanumDrive_Cartesian(0.7,0,0,0);
 		}

@@ -20,11 +20,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	RobotDrive robotDrive;
+	public RobotDrive robotDrive;
 	Joystick driverStick;
 	Joystick operatorStick;
 	
-	Gyro strafingGyro;
+	public Gyro strafingGyro;
 	
 	Encoder frontLeftEncoder;
 	Encoder frontRightEncoder;
