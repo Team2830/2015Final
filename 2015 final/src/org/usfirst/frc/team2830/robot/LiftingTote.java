@@ -8,15 +8,21 @@ public class LiftingTote implements Step {
 	Robot caller;
 	Timer clock= new Timer();
 	
-	public LiftingTote(Robot caller)
+	double liftTime;
+	double liftPower;
+
+	
+	public LiftingTote(Robot caller, double liftTime, double liftPower)
 	{
 		this.caller=caller;
+		this.liftTime = liftTime;
+		this.liftPower = liftPower;
 	}
 
 	@Override
 	public void start() {
 	
-		caller.elevatorTalon.set(.2);
+		caller.elevatorTalon.set(liftPower);
 		clock.reset();
 
 		
@@ -25,14 +31,14 @@ public class LiftingTote implements Step {
 	@Override
 	public void excecute() {
 		
-		caller.elevatorTalon.set(.2);
+		caller.elevatorTalon.set(liftPower);
 		
 		
 	}
 
 	@Override
 	public boolean isFinished() {
-		if (clock.get() > 2)
+		if (clock.get() > liftTime)
 			
 		{
 			return true;
