@@ -57,9 +57,10 @@ public class Robot extends IterativeRobot {
 	final int operatorJoystickChannel2  = 1;
 	
 	public DoubleSolenoid chuck;
-	ChuckClose oneToteChuckClose= new ChuckClose(this);
+	ChuckOperator oneToteChuckClose= new ChuckOperator(this, ChuckOperator.CLOSE);
 	LiftingTote liftTote= new LiftingTote(this);
-
+	Turn turn90 = new Turn(this, 90);
+	DriveForward drive115 = new DriveForward(this, 115);
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -114,8 +115,11 @@ public class Robot extends IterativeRobot {
     				currentStep= liftTote;
     				break;
     			case 2:
-    		//
-    				// currentStep= robotTurn90;
+    	
+    				currentStep= turn90;
+    				break;
+    			case 3:
+    				currentStep= drive115;
     				break;
     			}
     	}
