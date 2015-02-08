@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	Joystick driverStick;
 	Joystick operatorStick;
 	
+	final int ROBOT_LIFT_CONTAINER = 2;
 	final int ROBOT_LIFT_TOTE = 0;
 	final int DO_NOTHING = 1;
 	int mode = DO_NOTHING;
@@ -57,10 +58,30 @@ public class Robot extends IterativeRobot {
 	final int operatorJoystickChannel2  = 1;
 	
 	public DoubleSolenoid chuck;
-	ChuckOperator oneToteChuckClose= new ChuckOperator(this, ChuckOperator.CLOSE);
-	LiftingTote liftTote= new LiftingTote(this, 2, .2);
-	Turn turn90 = new Turn(this, 90);
-	DriveForward drive115 = new DriveForward(this, 115);
+	
+	ChuckOperator oneToteChuckClose;
+	ElevatingChuck oneToteLiftTote;
+	Turn oneToteTurn90;
+	DriveForward oneToteDrive115;
+	ChuckOperator oneToteChuckOpen;
+	
+	ChuckOperator oneContainerChuckClose;
+	ElevatingChuck oneContainerLiftContainer;
+	Turn oneContainerTurn90;
+	DriveForward oneContainerDrive115;
+	ChuckOperator oneContainerChuckOpen;
+	
+	ChuckOperator oneCTChuckClose;
+	ElevatingChuck oneCTChuckup1;
+	DriveForward oneCTDrive25;
+	ChuckOperator oneCTChuckOpen1;
+	ElevatingChuck oneCTChuckDown1;
+	ChuckOperator oneCTChuckClose2;
+	ElevatingChuck oneCTChuckup2;
+	Turn oneCTTurn90;
+	DriveForward oneCTDrive115;
+	ElevatingChuck oneCTChuckDown2;
+	ChuckOperator oneCTChuckOpen2;
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -95,13 +116,41 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit()
+    
     {
+    	oneToteChuckClose= new ChuckOperator(this, ChuckOperator.CLOSE);
+    	oneToteLiftTote= new ElevatingChuck(this, 2, .2);
+    	oneToteTurn90 = new Turn(this, 90);
+    	oneToteDrive115 = new DriveForward(this, 115);
+    	oneToteChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
+    
+    	oneContainerChuckClose = new ChuckOperator(this, ChuckOperator.CLOSE);
+    	oneContainerLiftContainer = new ElevatingChuck(this, 2, .2);
+    	oneContainerTurn90 = new Turn(this, 90);
+    	oneContainerDrive115 = new DriveForward(this, 115);
+    	oneContainerChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
+    	
+    	oneCTChuckClose = new ChuckOperator (this, ChuckOperator.CLOSE);
+    	oneCTChuckup1 =  new ElevatingChuck(this, 1, .2);
+    	oneCTDrive25 = new DriveForward(this, 25);
+    	oneCTChuckOpen1 = new ChuckOperator (this, ChuckOperator.OPEN);
+    	oneCTChuckDown1 = new ElevatingChuck(this, .5, -.2);
+    	oneCTChuckClose2 = new ChuckOperator (this, ChuckOperator.CLOSE);
+    	oneCTChuckup2 = new ElevatingChuck(this, 1, .5);
+    	oneCTTurn90 = new Turn(this, 90);
+    	oneCTDrive115 = new DriveForward(this, 115);
+    	oneCTChuckDown2 = new ElevatingChuck(this, .5 , -.2);
+    	oneCTChuckOpen2 = new ChuckOperator (this, ChuckOperator.OPEN);
+    
+    	
    mode= (int) SmartDashboard.getNumber("Autonomous");
     }
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	
+    	
     	
     	switch(mode)
     	{
@@ -112,17 +161,35 @@ public class Robot extends IterativeRobot {
     				currentStep= oneToteChuckClose;
     				break;
     			case 1:
-    				currentStep= liftTote;
+    				currentStep= oneToteLiftTote;
     				break;
     			case 2:
     	
-    				currentStep= turn90;
+    				currentStep= oneToteTurn90;
     				break;
     			case 3:
-    				currentStep= drive115;
+    				currentStep= oneToteDrive115;
     				break;
     			}
+    		case ROBOT_LIFT_CONTAINER:
+    			switch(stepNum)
+    			{
+    			case 0:
+    				currentStep= oneContainerChuckClose;
+    				break;
+    			case 1:
+    				currentStep= oneContainerLiftContainer;
+    				break;
+    			case 2:
+    	
+    				currentStep= oneContainerTurn90;
+    				break;
+    			case 3:
+    				currentStep= oneContainerDrive115;
+    				break;    	
     	}
+    	}
+    	
     	if(lastStep!=stepNum)
     	{
     		currentStep.start();
