@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
    
 			robotDrive = new RobotDrive(frontLeftChannel, rearLeftChannel, frontRightChannel, rearRightChannel);
 			robotDrive.setExpiration(0.1);
-			robotDrive.setInvertedMotor(MotorType.kFrontRight, true);	// invert the left side motors
+			robotDrive.setInvertedMotor(MotorType.kFrontRight, false);	// invert the left side motors
 			robotDrive.setInvertedMotor(MotorType.kRearRight, true);		// you may need to change or remove this to match your robot
 
 			driverStick = new Joystick(driverJoystickChannel);

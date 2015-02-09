@@ -1,0 +1,41 @@
+1.	Moving 1 tote and container to scoring platform
+•	Close chuck 
+•	Lift container for 1 second
+•	Drive forward 25 inches
+•	 open chuck
+•	Lower elevator ½ second
+•	Close chuck
+•	Raise elevator 1 second
+•	Turn 90 degrees to the right CW
+•	Drive forward 115 inches 
+•	Lower elevator ½
+•	 open chuck
+
+2.	Move robot to scoring zone
+•	Turn 180 degrees 
+•	Proceed forward to scoring zone
+
+3.	Score one container
+•	Drive to container we are in front off
+•	Pick up the container and back up to give clearance 
+•	Turn 180 degrees 
+•	Proceed forward to scoring zone
+•	Place the container in the scoring zone
+
+4.	Score one tote
+•	Grab onto tote
+•	Lift tote 2 seconds
+•	Turn 90 degrees to right
+•	Move forward 115 inches
+•	Let tote down release
+
+•	Drive to tote we are in front off
+•	Pick up the tote and back up to give clearance 
+•	Turn 180 degrees 
+•	Proceed forward to scoring zone
+•	Place the tote in the scoring zone
+
+5.	Coop stack
+•	This will follow one of the options below but the time of the stack will be offset to allow for all the robots to stack. Requires timing of other robots that we don’t have and more logic at the moment.
+
+

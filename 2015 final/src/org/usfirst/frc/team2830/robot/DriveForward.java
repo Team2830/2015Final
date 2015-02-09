@@ -17,7 +17,7 @@ public class DriveForward implements Step {
 		caller.robotDrive.mecanumDrive_Cartesian(0,0,0,0);
 		caller.frontLeftEncoder.reset();
 		caller.frontRightEncoder.reset();
-		caller.rearLeftEnconder.reset();
+		caller.rearLeftEncoder.reset();
 		caller.rearRightEncoder.reset();
 	}
 
@@ -30,7 +30,7 @@ public class DriveForward implements Step {
 	@Override
 	public boolean isFinished() {
 		// TODO Auto-generated method stub
-		double distantDrive = caller.frontLeftEncoder.get() + caller.frontRightEncoder.get() + caller.rearLeftEnconder.get() + caller.rearRightEncoder.get();
+		double distantDrive = caller.frontLeftEncoder.get() + caller.frontRightEncoder.get() + caller.rearLeftEncoder.get() + caller.rearRightEncoder.get();
 		if (distantDrive > driveAmount){
 			return true;
 		}
