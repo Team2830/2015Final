@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	Joystick driverStick;
 	Joystick operatorStick;
 	
+	final int ROBOT_LIFT_TOTECONTAINER=3;
 	final int ROBOT_LIFT_CONTAINER = 2;
 	final int ROBOT_LIFT_TOTE = 0;
 	final int DO_NOTHING = 1;
@@ -134,7 +135,7 @@ public class Robot extends IterativeRobot {
     	oneCTChuckup1 =  new ElevatingChuck(this, 1, .2);
     	oneCTDrive25 = new DriveForward(this, 25);
     	oneCTChuckOpen1 = new ChuckOperator (this, ChuckOperator.OPEN);
-    	oneCTChuckDown1 = new ElevatingChuck(this, .5, -.2);
+    	oneCTChuckDown1 = new ElevatingChuck(this, 1, -.2);
     	oneCTChuckClose2 = new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup2 = new ElevatingChuck(this, 1, .5);
     	oneCTTurn90 = new Turn(this, 90);
@@ -186,8 +187,27 @@ public class Robot extends IterativeRobot {
     				break;
     			case 3:
     				currentStep= oneContainerDrive115;
-    				break;    	
-    	}
+    				break;
+    		 	}
+    		case ROBOT_LIFT_TOTECONTAINER:
+    			switch(stepNum)
+    			{
+    			case 0:
+    				currentStep= oneCTChuckClose;
+    				break;
+    			case 1:
+    				currentStep= oneCTChuckup1 ;
+    				break;
+    			case 2:
+    				currentStep= oneCTDrive25;
+    				break;
+    			case 3:
+    				currentStep= oneCTCHuckOpen1:
+    				break;
+    				
+    				
+    			
+    			}
     	}
     	
     	if(lastStep!=stepNum)
