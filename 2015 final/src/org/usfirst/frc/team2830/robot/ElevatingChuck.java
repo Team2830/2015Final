@@ -3,7 +3,7 @@ package org.usfirst.frc.team2830.robot;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Timer;
 
-public class LiftingTote implements Step {
+public class ElevatingChuck implements Step {
 
 	Robot caller;
 	Timer clock= new Timer();
@@ -12,7 +12,7 @@ public class LiftingTote implements Step {
 	double liftPower;
 
 	
-	public LiftingTote(Robot caller, double liftTime, double liftPower)
+	public ElevatingChuck(Robot caller, double liftTime, double liftPower)
 	{
 		this.caller=caller;
 		this.liftTime = liftTime;

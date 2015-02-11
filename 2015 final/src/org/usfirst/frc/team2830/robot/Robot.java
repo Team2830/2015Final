@@ -202,7 +202,7 @@ public class Robot extends IterativeRobot {
     				currentStep= oneCTDrive25;
     				break;
     			case 3:
-    				currentStep= oneCTCHuckOpen1:
+    				currentStep= oneCTChuckOpen1;
     				break;
     				
     				
