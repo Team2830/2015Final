@@ -106,7 +106,7 @@ public class Robot extends IterativeRobot {
 			rearRightEncoder = new Encoder(6,7);
 			
 			
-			SmartDashboard.putNumber("Gyro Correction", 0.15);
+			SmartDashboard.putNumber("Gyro Correction", -0.15);
 			
 			strafingGyro.setSensitivity(.007);
 		
@@ -263,9 +263,11 @@ public class Robot extends IterativeRobot {
     double rotatingSpeed;
     final double GYRO_DEADBAND = 2;
     double setPoint = 0;
-    double gyroCorrection = .15;
+    double gyroCorrection = -.15;
     boolean lastButton2=true;
     boolean lastButton3=true;
+    double angleToFeed; 
+    
     /**
      * all the teleop functions are initialized 
      */
@@ -314,65 +316,87 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("frontRightEncoder", frontRightEncoder.get());
     	SmartDashboard.putNumber("rearLeftEncoder", rearLeftEncoder.get());
     	SmartDashboard.putNumber("rearRightEncoder", rearRightEncoder.get());
+
+    	boolean isTurning = Math.abs(driverStick.getTwist()) > DEADBAND;
+    	gyroCorrection = SmartDashboard.getNumber("Gyro Correction");
+
     	
-        boolean isTurning = Math.abs(driverStick.getTwist()) > DEADBAND;
-        gyroCorrection = SmartDashboard.getNumber("Gyro Correction");
-        
-        if (!isTurning && lastIsTurning){
-        	setPoint = strafingGyro.getAngle();
-        	rotatingSpeed=0;
-        	System.out.println("A");
-        	lastIsTurning = false;
-        
-        }else if(isTurning)
-        {
-        	rotatingSpeed=driverStick.getTwist();
-        	System.out.println("B");
-        	lastIsTurning = true;
-        	
-        }else
-        {lastIsTurning = false;
-        	if (Math.abs(strafingGyro.getAngle() - setPoint) < GYRO_DEADBAND)
-        		
-        	{
-        		rotatingSpeed = 0;
-        		System.out.println("C");
-        		
-        	}
-        	else 
-        	{
-        	
-        		if (strafingGyro.getAngle() - setPoint < 0)
-        			{rotatingSpeed = gyroCorrection;
-        			System.out.println("D");
-        				
-        		}
-        		else
-        			{rotatingSpeed = -gyroCorrection;
-        			System.out.println("E");
-        			
-        		}
-        		
-        			if (driverStick.getRawButton(2) && !lastButton2)
-        			{
-        		        //robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),driverStick.getAxis(Joystick.AxisType.kZ), 0);   
-        				
-        				robotCentric = !robotCentric;
-        	
-        			}
-        			lastButton2=driverStick.getRawButton(2);
-        			
-        			if(driverStick.getRawButton(3) && lastButton3)
-        			{
-        				holdHeading=!holdHeading;
-        				
-        			}
-        			lastButton3=driverStick.getRawButton(3);
-        		
-        	}
-        	}
-        
-        robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, strafingGyro.getAngle());
+		if (driverStick.getRawButton(2) && !lastButton2)
+		{
+			//robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),driverStick.getAxis(Joystick.AxisType.kZ), 0);   
+
+			robotCentric = !robotCentric;
+
+		}
+		lastButton2=driverStick.getRawButton(2);
+
+		if(driverStick.getRawButton(3) && !lastButton3)
+		{
+			holdHeading=!holdHeading;
+
+		}
+		lastButton3=driverStick.getRawButton(3);
+		
+    	
+    	if (!isTurning && lastIsTurning){
+    		setPoint = strafingGyro.getAngle();
+    		rotatingSpeed=0;
+    		System.out.println("A");
+    		lastIsTurning = false;
+
+    	}else if(isTurning)
+    	{
+    		rotatingSpeed=driverStick.getTwist();
+    		System.out.println("B");
+    		lastIsTurning = true;
+
+    	}else
+    	{lastIsTurning = false;
+    	if (Math.abs(strafingGyro.getAngle() - setPoint) < GYRO_DEADBAND)
+
+    	{
+    		rotatingSpeed = 0;
+    		System.out.println("C");
+
+    	}
+    	else 
+    	{
+
+    		if (strafingGyro.getAngle() - setPoint < 0)
+    		{rotatingSpeed = gyroCorrection;
+    		System.out.println("D");
+
+    		}
+    		else
+    		{
+    			rotatingSpeed = -gyroCorrection;
+    			System.out.println("E");
+
+    		}
+
+
+    	}
+
+    	}
+    	SmartDashboard.putNumber("angle", strafingGyro.getAngle());
+    	SmartDashboard.putBoolean("robot", robotCentric);
+    	SmartDashboard.putBoolean("hold", holdHeading);
+    	
+    	if(robotCentric)
+    	{
+    		angleToFeed = 0;
+    	}
+    	else{
+    		angleToFeed= strafingGyro.getAngle();
+    		
+    	}
+    	
+    	if(!holdHeading)
+    	{
+    		rotatingSpeed= driverStick.getAxis(Joystick.AxisType.kTwist);
+    	}	
+    	robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, angleToFeed);
     }
-    
+
+
 }
