@@ -165,12 +165,14 @@ public class Robot extends IterativeRobot {
     				currentStep= oneToteLiftTote;
     				break;
     			case 2:
-    	
     				currentStep= oneToteTurn90;
     				break;
     			case 3:
     				currentStep= oneToteDrive115;
     				break;
+    			default:
+    				currentStep = null;
+    			
     			}
     		case ROBOT_LIFT_CONTAINER:
     			switch(stepNum)
@@ -188,7 +190,10 @@ public class Robot extends IterativeRobot {
     			case 3:
     				currentStep= oneContainerDrive115;
     				break;
-    		 	}
+    			default:
+    				currentStep = null;
+    				
+    			}
     		case ROBOT_LIFT_TOTECONTAINER:
     			switch(stepNum)
     			{
@@ -204,25 +209,50 @@ public class Robot extends IterativeRobot {
     			case 3:
     				currentStep= oneCTChuckOpen1;
     				break;
-    				
-    				
-    			
+    			case 4:
+    				currentStep= oneCTChuckDown1;
+    				break;
+    			case 5:
+    				currentStep= oneCTChuckClose2;
+    				break;
+    			case 6:
+    				currentStep= oneCTChuckup2;
+    				break;
+    			case 7:
+    				currentStep= oneCTTurn90;
+    				break;
+    			case 8:
+    				currentStep= oneCTDrive115;
+    				break;
+    			case 9:
+    				currentStep= oneCTChuckDown2;
+    				break;
+    			case 10:
+    				currentStep= oneCTChuckOpen2;
+    				break;
+    			default:
+    				currentStep = null;
     			}
     	}
     	
-    	if(lastStep!=stepNum)
+    	if(currentStep != null)
     	{
-    		currentStep.start();
-    	}
+    		if(lastStep!=stepNum)
+    		{
+    			currentStep.start();
+    		}
     		lastStep= stepNum;
-    		
+
     		currentStep.excecute();
-    		
+
     		if(currentStep.isFinished())
     		{
     			currentStep.kill();
     			stepNum ++;
     		}
+    	}
+    	
+    	
     }
     final boolean ELEVATOR_ANALOG_INVERTER = true;
     boolean robotCentric= true;
