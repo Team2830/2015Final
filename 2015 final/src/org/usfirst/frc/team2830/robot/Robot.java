@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team2830.robot;
 
+import java.sql.Driver;
+
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
@@ -91,13 +93,14 @@ public class Robot extends IterativeRobot {
    
 			robotDrive = new RobotDrive(frontLeftChannel, rearLeftChannel, frontRightChannel, rearRightChannel);
 			robotDrive.setExpiration(0.1);
-			robotDrive.setInvertedMotor(MotorType.kFrontRight, true);	// invert the left side motors
+			robotDrive.setInvertedMotor(MotorType.kFrontRight, true);	// invert the left side motors 
 			robotDrive.setInvertedMotor(MotorType.kRearRight, true);		// you may need to change or remove this to match your robot
 
 			driverStick = new Joystick(driverJoystickChannel);
 			operatorStick = new Joystick(operatorJoystickChannel2);
 			
 			strafingGyro = new Gyro(gyroChannel);
+			strafingGyro.reset();
 			
 			new SmartDashboard();
 			frontLeftEncoder = new Encoder(0,1);
@@ -107,7 +110,7 @@ public class Robot extends IterativeRobot {
 			
 			
 			SmartDashboard.putNumber("Gyro Correction", -0.15);
-			
+			SmartDashboard.putNumber("Gyro Setting", strafingGyro.getAngle());
 			strafingGyro.setSensitivity(.007);
 		
 			elevatorTalon = new CANTalon(1);
@@ -259,7 +262,7 @@ public class Robot extends IterativeRobot {
     boolean holdHeading= true;
     boolean lastIsTurning = true;
     final double CORRECTION_RATE = .1;
-    final double DEADBAND = .2;
+    final double DEADBAND = .4;
     double rotatingSpeed;
     final double GYRO_DEADBAND = 2;
     double setPoint = 0;
@@ -267,7 +270,7 @@ public class Robot extends IterativeRobot {
     boolean lastButton2=true;
     boolean lastButton3=true;
     double angleToFeed; 
-    
+
     /**
      * all the teleop functions are initialized 
      */
@@ -275,13 +278,20 @@ public class Robot extends IterativeRobot {
     {
     
     }
-    /**
+    /**```````````````````````````
      *  everything that runs during teleop
      */
     public void teleopPeriodic()
     {
-    	
+    
+    	if (driverStick.getRawButton(4))
+    	{
+    		strafingGyro.reset();
+    	}
+    	else 
+    		
     	drive();
+    
         
     	double elevatorSpeed;
     	if (ELEVATOR_ANALOG_INVERTER)
@@ -395,8 +405,11 @@ public class Robot extends IterativeRobot {
     	{
     		rotatingSpeed= driverStick.getAxis(Joystick.AxisType.kTwist);
     	}	
+    	
     	robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, angleToFeed);
+    	SmartDashboard.putNumber("Angle To Feed", angleToFeed);
+    	SmartDashboard.putNumber("rotatingSpeed",rotatingSpeed);
     }
 
-
+    
 }
