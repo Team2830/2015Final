@@ -6,9 +6,13 @@ public class DriveForward implements Step {
 	
 	double driveAmount;
 	
-	public DriveForward(Robot caller,double driveAmount){
+	double drivePower;
+	
+	public DriveForward(Robot caller,double driveAmount, double drivePower)
+	{
 		this.caller = caller;
 		this.driveAmount = driveAmount;
+		this.drivePower = drivePower;
 	}
 
 	@Override
@@ -24,14 +28,15 @@ public class DriveForward implements Step {
 	@Override
 	public void excecute() {
 		// TODO Auto-generated method stub
-		caller.robotDrive.mecanumDrive_Cartesian(.6,0,0,0);
+		caller.robotDrive.mecanumDrive_Cartesian(this.drivePower,0,0,0);
+		
 	}
 
 	@Override
 	public boolean isFinished() {
 		// TODO Auto-generated method stub
 		double distantDrive = caller.frontLeftEncoder.get() + caller.frontRightEncoder.get() + caller.rearLeftEncoder.get() + caller.rearRightEncoder.get();
-		if (distantDrive > driveAmount){
+		if (Math.abs(distantDrive) > Math.abs(driveAmount)){
 			return true;
 		}
 		else 

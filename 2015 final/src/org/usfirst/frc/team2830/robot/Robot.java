@@ -25,11 +25,13 @@ public class Robot extends IterativeRobot {
 	public RobotDrive robotDrive;
 	Joystick driverStick;
 	Joystick operatorStick;
+
 	
+	final int DRIVE_BACK = 4;
 	final int ROBOT_LIFT_TOTECONTAINER=3;
 	final int ROBOT_LIFT_CONTAINER = 2;
-	final int ROBOT_LIFT_TOTE = 0;
-	final int DO_NOTHING = 1;
+	final int ROBOT_LIFT_TOTE = 1;
+	final int DO_NOTHING = 0;
 	int mode = DO_NOTHING;
 	Step currentStep;
 	int stepNum = 0;
@@ -85,6 +87,8 @@ public class Robot extends IterativeRobot {
 	DriveForward oneCTDrive115;
 	ElevatingChuck oneCTChuckDown2;
 	ChuckOperator oneCTChuckOpen2;
+	
+	DriveForward justBackwards;
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -117,47 +121,61 @@ public class Robot extends IterativeRobot {
 			elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
 			
 			chuck = new DoubleSolenoid( 0, 1);
+			SmartDashboard.putNumber("Autonomous", this.DO_NOTHING);
+			
     }
 
     public void autonomousInit()
     
     {
+    	
     	oneToteChuckClose= new ChuckOperator(this, ChuckOperator.CLOSE);
     	oneToteLiftTote= new ElevatingChuck(this, 2, .2);
     	oneToteTurn90 = new Turn(this, 90);
-    	oneToteDrive115 = new DriveForward(this, 115);
+    	oneToteDrive115 = new DriveForward(this, 115, .6);
     	oneToteChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
     
     	oneContainerChuckClose = new ChuckOperator(this, ChuckOperator.CLOSE);
     	oneContainerLiftContainer = new ElevatingChuck(this, 2, .2);
     	oneContainerTurn90 = new Turn(this, 90);
-    	oneContainerDrive115 = new DriveForward(this, 115);
+    	oneContainerDrive115 = new DriveForward(this, 115, .6);
     	oneContainerChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
     	
     	oneCTChuckClose = new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup1 =  new ElevatingChuck(this, 1, .2);
-    	oneCTDrive25 = new DriveForward(this, 25);
+    	oneCTDrive25 = new DriveForward(this, 25, .6);
     	oneCTChuckOpen1 = new ChuckOperator (this, ChuckOperator.OPEN);
     	oneCTChuckDown1 = new ElevatingChuck(this, 1, -.2);
     	oneCTChuckClose2 = new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup2 = new ElevatingChuck(this, 1, .5);
     	oneCTTurn90 = new Turn(this, 90);
-    	oneCTDrive115 = new DriveForward(this, 115);
+    	oneCTDrive115 = new DriveForward(this, 115, .6);
     	oneCTChuckDown2 = new ElevatingChuck(this, .5 , -.2);
     	oneCTChuckOpen2 = new ChuckOperator (this, ChuckOperator.OPEN);
     
+    	justBackwards = new DriveForward (this, -115, -.6);
     	
    mode= (int) SmartDashboard.getNumber("Autonomous");
+   
     }
     /**
      * This function is called periodically during autonomous
      */
-    public void autonomousPeriodic() {
+    public void autonomousPeriodic() 
+    {
     	
-    	
+   SmartDashboard.putNumber("step", stepNum);
     	
     	switch(mode)
     	{
+    	case DRIVE_BACK:
+    		switch (stepNum)
+    		{
+    		case 0: currentStep= justBackwards;
+    		break;
+    		default: currentStep= null;
+    		}
+    	
     		case ROBOT_LIFT_TOTE:
     			switch(stepNum)
     			{
@@ -255,8 +273,7 @@ public class Robot extends IterativeRobot {
     		}
     	}
     	 
-    	
-    }
+        }
     final boolean ELEVATOR_ANALOG_INVERTER = true;
     boolean robotCentric= true;
     boolean holdHeading= true;
@@ -305,7 +322,7 @@ public class Robot extends IterativeRobot {
     	
     	elevatorTalon.set(elevatorSpeed);
     	
-    	if (operatorStick.getRawButton(2))
+    	if (operatorStick.getRawButton(5))
     	{
     		chuck.set(DoubleSolenoid.Value.kForward);
     		
