@@ -20,6 +20,7 @@ public class ChuckOperator implements Step
 	public void start() {
 		caller.chuck.set(DoubleSolenoid.Value.kForward);
 		clock.reset();
+		clock.start();
 	}
 
 	@Override

@@ -112,9 +112,14 @@ public class Robot extends IterativeRobot {
 			rearLeftEncoder = new Encoder(4,5);
 			rearRightEncoder = new Encoder(6,7);
 			
+			/*frontLeftEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);
+			frontRightEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);
+			rearLeftEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);
+			rearRightEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);*/
 			
 			SmartDashboard.putNumber("Gyro Correction", -0.15);
 			SmartDashboard.putNumber("Gyro Setting", strafingGyro.getAngle());
+			
 			strafingGyro.setSensitivity(.007);
 		
 			elevatorTalon = new CANTalon(1);
@@ -123,11 +128,18 @@ public class Robot extends IterativeRobot {
 			chuck = new DoubleSolenoid( 0, 1);
 			SmartDashboard.putNumber("Autonomous", this.DO_NOTHING);
 			
+			SmartDashboard.putString("Task", "Javion D. Mosley");
     }
 
     public void autonomousInit()
     
     {
+    	SmartDashboard.putNumber("frontLeftEncoder", frontLeftEncoder.get());
+    	SmartDashboard.putNumber("frontRightEncoder", frontRightEncoder.get());
+    	SmartDashboard.putNumber("rearLeftEncoder", rearLeftEncoder.get());
+    	SmartDashboard.putNumber("rearRightEncoder", rearRightEncoder.get());    	
+    	
+    	robotDrive.setSafetyEnabled(false);
     	
     	oneToteChuckClose= new ChuckOperator(this, ChuckOperator.CLOSE);
     	oneToteLiftTote= new ElevatingChuck(this, 2, .2);
@@ -136,14 +148,13 @@ public class Robot extends IterativeRobot {
     	oneToteChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
     
     	oneContainerChuckClose = new ChuckOperator(this, ChuckOperator.CLOSE);
-    	oneContainerLiftContainer = new ElevatingChuck(this, 2, .2);
-    	oneContainerTurn90 = new Turn(this, 90);
-    	oneContainerDrive115 = new DriveForward(this, 115, .6);
-    	oneContainerChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
+    	oneContainerLiftContainer = new ElevatingChuck(this, .5, .2);
+    	oneContainerDrive115 = new DriveForward(this, -115, .6);
+    	
     	
     	oneCTChuckClose = new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup1 =  new ElevatingChuck(this, 1, .2);
-    	oneCTDrive25 = new DriveForward(this, 25, .6);
+    	oneCTDrive25 = new DriveForward(this, 25, -.6);
     	oneCTChuckOpen1 = new ChuckOperator (this, ChuckOperator.OPEN);
     	oneCTChuckDown1 = new ElevatingChuck(this, 1, -.2);
     	oneCTChuckClose2 = new ChuckOperator (this, ChuckOperator.CLOSE);
@@ -153,9 +164,13 @@ public class Robot extends IterativeRobot {
     	oneCTChuckDown2 = new ElevatingChuck(this, .5 , -.2);
     	oneCTChuckOpen2 = new ChuckOperator (this, ChuckOperator.OPEN);
     
-    	justBackwards = new DriveForward (this, -115, -.6);
+    	justBackwards = new DriveForward (this, -11500000, .6);
     	
    mode= (int) SmartDashboard.getNumber("Autonomous");
+   SmartDashboard.putNumber("Gyro", strafingGyro.getAngle());
+   
+   stepNum = 0;
+   lastStep = -1;	   
    
     }
     /**
@@ -163,6 +178,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() 
     {
+    	SmartDashboard.putNumber("Gyro", strafingGyro.getAngle());
     	
    SmartDashboard.putNumber("step", stepNum);
     	
@@ -172,9 +188,11 @@ public class Robot extends IterativeRobot {
     		switch (stepNum)
     		{
     		case 0: currentStep= justBackwards;
+    		System.out.println("Driving Back");
     		break;
     		default: currentStep= null;
     		}
+    		break;
     	
     		case ROBOT_LIFT_TOTE:
     			switch(stepNum)
@@ -195,6 +213,7 @@ public class Robot extends IterativeRobot {
     				currentStep = null;
     			
     			}
+    			break;
     		case ROBOT_LIFT_CONTAINER:
     			switch(stepNum)
     			{
@@ -204,17 +223,15 @@ public class Robot extends IterativeRobot {
     			case 1:
     				currentStep= oneContainerLiftContainer;
     				break;
+    			
     			case 2:
-    	
-    				currentStep= oneContainerTurn90;
-    				break;
-    			case 3:
     				currentStep= oneContainerDrive115;
     				break;
     			default:
     				currentStep = null;
     				
     			}
+    			break;
     		case ROBOT_LIFT_TOTECONTAINER:
     			switch(stepNum)
     			{
@@ -254,7 +271,10 @@ public class Robot extends IterativeRobot {
     			default:
     				currentStep = null;
     			}
+    			break;
     	}
+    	
+    	System.out.println(currentStep);
     	
     	if(currentStep != null)
     	{
@@ -293,7 +313,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopInit()
     {
-    
+    	robotDrive.setSafetyEnabled(true);
     }
     /**```````````````````````````
      *  everything that runs during teleop

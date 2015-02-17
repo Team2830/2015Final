@@ -24,7 +24,7 @@ public class ElevatingChuck implements Step {
 	
 		caller.elevatorTalon.set(liftPower);
 		clock.reset();
-
+        clock.start();
 		
 	}
 
