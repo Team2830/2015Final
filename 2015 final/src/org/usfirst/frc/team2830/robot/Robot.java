@@ -9,9 +9,12 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Gyro;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.hal.CanTalonSRX;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -111,6 +114,13 @@ public class Robot extends IterativeRobot {
 			frontRightEncoder = new Encoder(2,3);
 			rearLeftEncoder = new Encoder(4,5);
 			rearRightEncoder = new Encoder(6,7);
+			LiveWindow.addSensor("Drive Train", "Front Left Encoder", frontLeftEncoder);
+			LiveWindow.addSensor("Drive Train", "Front Right Encoder", frontRightEncoder);
+			LiveWindow.addSensor("Drive Train", "Rear Left Encoder", rearLeftEncoder);
+			LiveWindow.addSensor("Drive Train", "Rear Right Encoder", rearRightEncoder);
+			LiveWindow.addSensor("Drive Train", "Gyro", strafingGyro);
+			PowerDistributionPanel pdp = new PowerDistributionPanel();
+			pdp.startLiveWindowMode();
 			
 			/*frontLeftEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);
 			frontRightEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);
@@ -124,7 +134,6 @@ public class Robot extends IterativeRobot {
 		
 			elevatorTalon = new CANTalon(1);
 			elevatorTalon.changeControlMode(CANTalon.ControlMode.PercentVbus);
-			
 			chuck = new DoubleSolenoid( 0, 1);
 			SmartDashboard.putNumber("Autonomous", this.DO_NOTHING);
 			
@@ -356,6 +365,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	LiveWindow.run();
     
     }
     public void drive () {
