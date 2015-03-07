@@ -25,7 +25,7 @@ public class Turn implements Step{
 	public void excecute() {
 		// TODO Auto-generated method stub
 		
-			caller.robotDrive.mecanumDrive_Cartesian(0.7,0,0,0);
+			caller.robotDrive.mecanumDrive_Cartesian(0,0,0.7,0);
 		
 	}
 
@@ -33,7 +33,7 @@ public class Turn implements Step{
 	public boolean isFinished() {
 		// TODO Auto-generated method stub
 		
-		if (caller.strafingGyro.getAngle() > driveAmount){
+		if (Math.abs(caller.strafingGyro.getAngle()) > driveAmount){
 			
 			return true;
 

@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2830.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DriveForward implements Step {
 	
 	Robot caller;
@@ -12,7 +14,7 @@ public class DriveForward implements Step {
 	
 	double rotatingSpeed;
 	
-	final double gyroCorrection = .15;
+	final double gyroCorrection =-.15;
 	
 	final double GYRO_DEADBAND = 4;
 	
@@ -63,13 +65,19 @@ public class DriveForward implements Step {
 		
 		System.out.print("excute");
 	
-	caller.robotDrive.mecanumDrive_Cartesian(0,this.drivePower,rotatingSpeed,0);
+	caller.robotDrive.mecanumDrive_Cartesian(0,-this.drivePower,rotatingSpeed,0);
 	}
 	@Override
 	public boolean isFinished() {
+		
+		
 		// TODO Auto-generated method stub
-		double distantDrive = caller.frontLeftEncoder.get() + caller.frontRightEncoder.get() + caller.rearLeftEncoder.get() + caller.rearRightEncoder.get();
-		if (Math.abs(distantDrive / 4) > Math.abs(driveAmount)){
+		double distanceDrive = caller.frontLeftEncoder.get() + caller.frontRightEncoder.get() + caller.rearLeftEncoder.get() + caller.rearRightEncoder.get();
+	//	distanceDrive *= (6*Math.PI*Math.sin(Math.PI/4)/360);
+		
+		SmartDashboard.putNumber("Drive Distance", distanceDrive/4);
+		
+		if (Math.abs(distanceDrive / 4) > Math.abs(driveAmount)){
 			return true;
 		}
 		else 

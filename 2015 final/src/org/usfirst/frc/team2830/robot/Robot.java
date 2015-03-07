@@ -158,12 +158,12 @@ public class Robot extends IterativeRobot {
     
     	oneContainerChuckClose = new ChuckOperator(this, ChuckOperator.CLOSE);
     	oneContainerLiftContainer = new ElevatingChuck(this, .5, .2);
-    	oneContainerDrive115 = new DriveForward(this, -115, .6);
+    	oneContainerDrive115 = new DriveForward(this, 115, -.6);
     	
     	
     	oneCTChuckClose = new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup1 =  new ElevatingChuck(this, 1, .2);
-    	oneCTDrive25 = new DriveForward(this, 25, -.6);
+    	oneCTDrive25 = new DriveForward(this, 25, .6);
     	oneCTChuckOpen1 = new ChuckOperator (this, ChuckOperator.OPEN);
     	oneCTChuckDown1 = new ElevatingChuck(this, 1, -.2);
     	oneCTChuckClose2 = new ChuckOperator (this, ChuckOperator.CLOSE);
@@ -173,7 +173,7 @@ public class Robot extends IterativeRobot {
     	oneCTChuckDown2 = new ElevatingChuck(this, .5 , -.2);
     	oneCTChuckOpen2 = new ChuckOperator (this, ChuckOperator.OPEN);
     
-    	justBackwards = new DriveForward (this, -11500000, .6);
+    	justBackwards = new DriveForward (this, 55, -.3);
     	
    mode= (int) SmartDashboard.getNumber("Autonomous");
    SmartDashboard.putNumber("Gyro", strafingGyro.getAngle());
@@ -189,7 +189,11 @@ public class Robot extends IterativeRobot {
     {
     	SmartDashboard.putNumber("Gyro", strafingGyro.getAngle());
     	
-   SmartDashboard.putNumber("step", stepNum);
+    	SmartDashboard.putNumber("frontLeftEncoder", frontLeftEncoder.get());
+    	SmartDashboard.putNumber("frontRightEncoder", frontRightEncoder.get());
+    	SmartDashboard.putNumber("rearLeftEncoder", rearLeftEncoder.get());
+    	SmartDashboard.putNumber("rearRightEncoder", rearRightEncoder.get());
+    	SmartDashboard.putNumber("step", stepNum);
     	
     	switch(mode)
     	{
