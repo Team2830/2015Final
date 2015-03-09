@@ -79,16 +79,18 @@ public class Robot extends IterativeRobot {
 	DriveForward oneContainerDrive115;
 	ChuckOperator oneContainerChuckOpen;
 	
-	/*
+	
 	ChuckOperator oneCTChuckClose1;
 	ElevatingChuck oneCTChuckup1;
 	Turn oneCTTurn55;
 	StrafingClass oneCTStrafe3;
+	DriveForward oneCTDrive4;
 	ElevatingChuck oneCTCuckdown;
 	ChuckOperator oneCTChuckClose2;
 	ElevatingChuck oneCTChuckup2;
 	StrafingClass oneCTStrafe55;
-	*/
+	ChuckOperator oneCTChuckClose3;
+	
 	
 	
 	
@@ -154,7 +156,7 @@ public class Robot extends IterativeRobot {
     	
     	oneToteChuckClose= new ChuckOperator(this, ChuckOperator.CLOSE);
     	oneToteLiftTote= new ElevatingChuck(this, 2, .2);
-    	oneToteTurn90 = new Turn(this, 90);
+    	oneToteTurn90 = new Turn(this, 90., .2);
     	oneToteDrive115 = new DriveForward(this, 115, .6);
     	oneToteChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
     
@@ -164,16 +166,18 @@ public class Robot extends IterativeRobot {
     	
     	
     	
-    	/*
-    	oneCTChuckClose1= new ChuckOperator (this, ChuckOperator.OPEN);
+    	
+    	oneCTChuckClose1= new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup1= new ElevatingChuck(this, 4, .2);
-    	oneCTTurn55= new Turn(this, 55);
-    	oneCTStrafe3= new StrafingClass (this, 3, .3);
+    	oneCTTurn55= new Turn(this, 40, -.3);
+    	oneCTStrafe3= new StrafingClass (this, 10, .3);
+    	oneCTDrive4= new DriveForward (this, 4, .4);
+    	oneCTChuckClose3 = new ChuckOperator (this, ChuckOperator.OPEN);
     	oneCTCuckdown= new ElevatingChuck(this, -6, .2);
     	oneCTChuckClose2= new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup2= new ElevatingChuck(this, 4, .3);
-    	oneCTStrafe55= new StrafingClass (this, 55,.3);
-    	*/
+    	oneCTStrafe55= new StrafingClass (this, 63,-.3);
+    	
     	
     	justBackwards = new DriveForward (this, 55, -.3);
     	
@@ -247,41 +251,44 @@ public class Robot extends IterativeRobot {
     				
     			}
     			break;
-   /* 		case ROBOT_LIFT_TOTECONTAINER:
+   		case ROBOT_LIFT_TOTECONTAINER:
     			switch(stepNum)
     			{
     			case 0:
-    				currentStep= oneCTChuckClose;
+    				currentStep= oneCTChuckClose1;
     				break;
     			case 1:
     				currentStep= oneCTChuckup1 ;
     				break;
     			case 2:
-    				currentStep= oneCTDrive25;
+    				currentStep= oneCTTurn55;;
     				break;
     			case 3:
-    				currentStep= oneCTChuckOpen1;
+    				currentStep= oneCTStrafe3;
     				break;
     			case 4:
-    				currentStep= oneCTChuckDown1;
+    				currentStep= oneCTDrive4;
     				break;
     			case 5:
-    				currentStep= oneCTChuckClose2;
+    				currentStep= oneCTChuckClose3;
     				break;
     			case 6:
-    				currentStep= oneCTChuckup2;
+    				currentStep= oneCTChuckClose2;
     				break;
     			case 7:
-    				currentStep= oneCTTurn90;
+    				currentStep= oneCTChuckup2;
     				break;
     			case 8:
-    				currentStep= oneCTDrive115;
+    				currentStep= oneCTCuckdown;
     				break;
     			case 9:
-    				currentStep= oneCTChuckDown2;
+    				currentStep= oneCTChuckClose2;
     				break;
     			case 10:
-    				currentStep= oneCTChuckOpen2;
+    				currentStep= oneCTChuckup2;
+    				break;
+    			case 11:
+    				currentStep= oneCTStrafe55;
     				break;
     			default:
     				currentStep = null;
@@ -305,7 +312,7 @@ public class Robot extends IterativeRobot {
     		{
     			currentStep.kill();
     			stepNum ++;
-    		}*/
+    		}
     	}
     	 
         }

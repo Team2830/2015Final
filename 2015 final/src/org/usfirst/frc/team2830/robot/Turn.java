@@ -8,9 +8,12 @@ public class Turn implements Step{
 	
 	double driveAmount;
 	
-	public Turn(Robot caller, double driveAmount){
+	double power;
+	
+	public Turn(Robot caller, double driveAmount,double power){
 		this.caller = caller;
 		this.driveAmount = driveAmount;
+		this.power = power;
 	}
 
 	@Override
@@ -25,7 +28,7 @@ public class Turn implements Step{
 	public void excecute() {
 		// TODO Auto-generated method stub
 		
-			caller.robotDrive.mecanumDrive_Cartesian(0,0,0.7,0);
+			caller.robotDrive.mecanumDrive_Cartesian(0,0,this.power,0);
 		
 	}
 
