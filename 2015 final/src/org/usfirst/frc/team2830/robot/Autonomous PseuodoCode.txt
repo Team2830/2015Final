@@ -38,4 +38,13 @@
 5.	Coop stack
 •	This will follow one of the options below but the time of the stack will be offset to allow for all the robots to stack. Requires timing of other robots that we don’t have and more logic at the moment.
 
-
+1.Close onto container
+  Elevate chuck
+  Turn()
+  Strafe right
+  lower chuck
+  Open chuck
+  lower chuck(to tote)
+  Close chuck
+  lift chuck
+  strafe left (into scoring zone)

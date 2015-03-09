@@ -79,17 +79,19 @@ public class Robot extends IterativeRobot {
 	DriveForward oneContainerDrive115;
 	ChuckOperator oneContainerChuckOpen;
 	
-	ChuckOperator oneCTChuckClose;
+	/*
+	ChuckOperator oneCTChuckClose1;
 	ElevatingChuck oneCTChuckup1;
-	DriveForward oneCTDrive25;
-	ChuckOperator oneCTChuckOpen1;
-	ElevatingChuck oneCTChuckDown1;
+	Turn oneCTTurn55;
+	StrafingClass oneCTStrafe3;
+	ElevatingChuck oneCTCuckdown;
 	ChuckOperator oneCTChuckClose2;
 	ElevatingChuck oneCTChuckup2;
-	Turn oneCTTurn90;
-	DriveForward oneCTDrive115;
-	ElevatingChuck oneCTChuckDown2;
-	ChuckOperator oneCTChuckOpen2;
+	StrafingClass oneCTStrafe55;
+	*/
+	
+	
+	
 	
 	DriveForward justBackwards;
 	/**
@@ -161,18 +163,18 @@ public class Robot extends IterativeRobot {
     	oneContainerDrive115 = new DriveForward(this, 115, -.6);
     	
     	
-    	oneCTChuckClose = new ChuckOperator (this, ChuckOperator.CLOSE);
-    	oneCTChuckup1 =  new ElevatingChuck(this, 1, .2);
-    	oneCTDrive25 = new DriveForward(this, 25, .6);
-    	oneCTChuckOpen1 = new ChuckOperator (this, ChuckOperator.OPEN);
-    	oneCTChuckDown1 = new ElevatingChuck(this, 1, -.2);
-    	oneCTChuckClose2 = new ChuckOperator (this, ChuckOperator.CLOSE);
-    	oneCTChuckup2 = new ElevatingChuck(this, 1, .5);
-    	oneCTTurn90 = new Turn(this, 90);
-    	oneCTDrive115 = new DriveForward(this, 115, .6);
-    	oneCTChuckDown2 = new ElevatingChuck(this, .5 , -.2);
-    	oneCTChuckOpen2 = new ChuckOperator (this, ChuckOperator.OPEN);
-    
+    	
+    	/*
+    	oneCTChuckClose1= new ChuckOperator (this, ChuckOperator.OPEN);
+    	oneCTChuckup1= new ElevatingChuck(this, 4, .2);
+    	oneCTTurn55= new Turn(this, 55);
+    	oneCTStrafe3= new StrafingClass (this, 3, .3);
+    	oneCTCuckdown= new ElevatingChuck(this, -6, .2);
+    	oneCTChuckClose2= new ChuckOperator (this, ChuckOperator.CLOSE);
+    	oneCTChuckup2= new ElevatingChuck(this, 4, .3);
+    	oneCTStrafe55= new StrafingClass (this, 55,.3);
+    	*/
+    	
     	justBackwards = new DriveForward (this, 55, -.3);
     	
    mode= (int) SmartDashboard.getNumber("Autonomous");
@@ -245,7 +247,7 @@ public class Robot extends IterativeRobot {
     				
     			}
     			break;
-    		case ROBOT_LIFT_TOTECONTAINER:
+   /* 		case ROBOT_LIFT_TOTECONTAINER:
     			switch(stepNum)
     			{
     			case 0:
@@ -303,7 +305,7 @@ public class Robot extends IterativeRobot {
     		{
     			currentStep.kill();
     			stepNum ++;
-    		}
+    		}*/
     	}
     	 
         }
