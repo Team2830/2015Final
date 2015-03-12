@@ -31,7 +31,7 @@ public class ChuckOperator implements Step
 
 	@Override
 	public boolean isFinished() {
-		if (clock.get() > 1)
+		if (clock.get() > .5)
 			
 		{
 			return true;

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.hal.CanTalonSRX;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -168,14 +169,14 @@ public class Robot extends IterativeRobot {
     	
     	
     	oneCTChuckClose1= new ChuckOperator (this, ChuckOperator.CLOSE);
-    	oneCTChuckup1= new ElevatingChuck(this, 4, .2);
+    	oneCTChuckup1= new ElevatingChuck(this, 1, .2);
     	oneCTTurn55= new Turn(this, 40, -.3);
     	oneCTStrafe3= new StrafingClass (this, 10, .3);
     	oneCTDrive4= new DriveForward (this, 4, .4);
     	oneCTChuckClose3 = new ChuckOperator (this, ChuckOperator.OPEN);
-    	oneCTCuckdown= new ElevatingChuck(this, -6, .2);
+    	oneCTCuckdown= new ElevatingChuck(this, .5, -.2);
     	oneCTChuckClose2= new ChuckOperator (this, ChuckOperator.CLOSE);
-    	oneCTChuckup2= new ElevatingChuck(this, 4, .3);
+    	oneCTChuckup2= new ElevatingChuck(this, 1, .3);
     	oneCTStrafe55= new StrafingClass (this, 63,-.3);
     	
     	
@@ -310,6 +311,8 @@ public class Robot extends IterativeRobot {
 
     		if(currentStep.isFinished())
     		{
+    			System.out.println("step;"+stepNum + "time;"+Timer.getFPGATimestamp());
+    	    	
     			currentStep.kill();
     			stepNum ++;
     		}
