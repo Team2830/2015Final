@@ -93,10 +93,10 @@ public class Robot extends IterativeRobot {
 	ChuckOperator oneCTChuckClose3;
 	
 	
-	
-	
-	
 	DriveForward justBackwards;
+
+	
+	PowerDistributionPanel pdp; 
 	/**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -124,8 +124,8 @@ public class Robot extends IterativeRobot {
 			LiveWindow.addSensor("Drive Train", "Rear Left Encoder", rearLeftEncoder);
 			LiveWindow.addSensor("Drive Train", "Rear Right Encoder", rearRightEncoder);
 			LiveWindow.addSensor("Drive Train", "Gyro", strafingGyro);
-			PowerDistributionPanel pdp = new PowerDistributionPanel();
-			pdp.startLiveWindowMode();
+			pdp = new PowerDistributionPanel();
+			//pdp.startLiveWindowMode();
 			
 			/*frontLeftEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);
 			frontRightEncoder.setDistancePerPulse((6*Math.PI*Math.sin(Math.PI/4))/360);
@@ -143,7 +143,10 @@ public class Robot extends IterativeRobot {
 			SmartDashboard.putNumber("Autonomous", this.DO_NOTHING);
 			
 			SmartDashboard.putString("Task", "Javion D. Mosley");
-    }
+			
+			elevatorTalon.ConfigFwdLimitSwitchNormallyOpen (true);
+			elevatorTalon.ConfigRevLimitSwitchNormallyOpen (true);
+     }
 
     public void autonomousInit()
     
@@ -176,8 +179,8 @@ public class Robot extends IterativeRobot {
     	oneCTChuckClose3 = new ChuckOperator (this, ChuckOperator.OPEN);
     	oneCTCuckdown= new ElevatingChuck(this, .5, -.2);
     	oneCTChuckClose2= new ChuckOperator (this, ChuckOperator.CLOSE);
-    	oneCTChuckup2= new ElevatingChuck(this, 1, .3);
-    	oneCTStrafe55= new StrafingClass (this, 63,-.3);
+     	oneCTChuckup2= new ElevatingChuck(this, 1, .3);
+   	oneCTStrafe55= new StrafingClass (this, 63,-.3);
     	
     	
     	justBackwards = new DriveForward (this, 55, -.3);
@@ -345,6 +348,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic()
     {
+    	SmartDashboard.putNumber("Current", pdp.getCurrent(3));
+    	
     
     	if (driverStick.getRawButton(4))
     	{
@@ -375,7 +380,7 @@ public class Robot extends IterativeRobot {
     	{ 
     		chuck.set(DoubleSolenoid.Value.kReverse);}
     	
-    	
+
     }
     /**
      * This function is called periodically during test mode
