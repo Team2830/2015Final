@@ -53,7 +53,7 @@ public class ElevatingChuck implements Step {
 	@Override
 	public void kill() {
 		// TODO Auto-generated method stub
-		
+		caller.elevatorTalon.set(0);
 	}
 
 }
