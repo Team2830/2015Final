@@ -90,11 +90,13 @@ public class Robot extends IterativeRobot {
 	ElevatingChuck oneCTChuckDown1;
 	ChuckOperator oneCTChuckClose2;
 	ElevatingChuck oneCTChuckup2;
-	StrafingClass oneCTStrafe55;
 	ChuckOperator oneCTChuckClose3;
+	Turn oneCTTurn90;
+	DriveForward oneCTDrive115;
 	
 	
 	DriveForward justBackwards;
+	Turn JBTurn90;
 
 	
 	PowerDistributionPanel pdp; 
@@ -166,10 +168,8 @@ public class Robot extends IterativeRobot {
     	oneToteChuckOpen = new ChuckOperator (this, ChuckOperator.OPEN);
     
     	oneContainerChuckClose = new ChuckOperator(this, ChuckOperator.CLOSE);
-    	oneContainerLiftContainer = new ElevatingChuck(this, .5, .2);
-    	oneContainerDrive115 = new DriveForward(this, 115, -.6);
-    	
-    	
+    	oneContainerLiftContainer = new ElevatingChuck(this, .5, .1);
+    	oneContainerDrive115 = new DriveForward(this, 120, -.8);
     	
     	
     	oneCTChuckClose1= new ChuckOperator (this, ChuckOperator.CLOSE);
@@ -182,10 +182,14 @@ public class Robot extends IterativeRobot {
     	oneCTChuckDown1= new ElevatingChuck(this, .3, -1);
     	oneCTChuckClose2= new ChuckOperator (this, ChuckOperator.CLOSE);
      	oneCTChuckup2= new ElevatingChuck(this, .4, 1);
-   	    oneCTStrafe55= new StrafingClass (this, 63,-.3);
+   	    
+    	oneCTTurn90 = new Turn(this, 90,-.4);
+   	    oneCTDrive115 = new DriveForward (this, 115,.7);
+    	
+    	justBackwards = new DriveForward (this, 55, -.7);
+    	JBTurn90 = new Turn(this, 90,.6);
     	
     	
-    	justBackwards = new DriveForward (this, 55, -.3);
     	
    mode= (int) SmartDashboard.getNumber("Autonomous");
    SmartDashboard.putNumber("Gyro", strafingGyro.getAngle());
@@ -214,7 +218,10 @@ public class Robot extends IterativeRobot {
     		{
     		case 0: currentStep= justBackwards;
     		System.out.println("Driving Back");
-    		break;
+    			break;
+    		case 1:currentStep= JBTurn90;
+    			break;
+    		
     		default: currentStep= null;
     		}
     		break;
@@ -280,6 +287,7 @@ public class Robot extends IterativeRobot {
     				break;
     			case 6:
     				currentStep= oneCTChuckDown;
+    				break;
     			case 7:
     				currentStep= oneCTChuckDown;
     				break;
@@ -293,7 +301,10 @@ public class Robot extends IterativeRobot {
     				currentStep= oneCTChuckup2;
     				break;
     			case 11:
-    				currentStep= oneCTStrafe55;
+    				currentStep= oneCTTurn90;
+    				break;
+    			case 12:
+    				currentStep= oneCTDrive115;
     				break;
     			default:
     				currentStep = null;
@@ -323,9 +334,9 @@ public class Robot extends IterativeRobot {
     	}
     	 
         }
-    final boolean ELEVATOR_ANALOG_INVERTER = true;
+    final boolean ELEVATOR_ANALOG_INVERTER = false;
     boolean robotCentric= true;
-    boolean holdHeading= true;
+    boolean holdHeading= false;
     boolean lastIsTurning = true;
     final double CORRECTION_RATE = .1;
     final double DEADBAND = .4;
@@ -391,6 +402,8 @@ public class Robot extends IterativeRobot {
     
     }
     public void drive () {
+    	
+    
     	SmartDashboard.putNumber("frontLeftEncoder", frontLeftEncoder.get());
     	SmartDashboard.putNumber("frontRightEncoder", frontRightEncoder.get());
     	SmartDashboard.putNumber("rearLeftEncoder", rearLeftEncoder.get());
@@ -475,10 +488,18 @@ public class Robot extends IterativeRobot {
     		rotatingSpeed= driverStick.getAxis(Joystick.AxisType.kTwist);
     	}	
     	
-    	robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, angleToFeed);
+    	//robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, angleToFeed);
     	SmartDashboard.putNumber("Angle To Feed", angleToFeed);
     	SmartDashboard.putNumber("rotatingSpeed",rotatingSpeed);
-    }
+   	if (driverStick.getRawButton(1))
+    	{
+        	robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX)*.3,driverStick.getAxis(Joystick.AxisType.kY)*.3,rotatingSpeed*.3, angleToFeed);
+    	}
+    	else
+    	{  
+    		robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, angleToFeed);
+    	} 
+   	}
 
     
 }
