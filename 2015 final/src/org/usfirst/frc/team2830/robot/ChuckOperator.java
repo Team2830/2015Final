@@ -10,15 +10,19 @@ public class ChuckOperator implements Step
 	Timer clock= new Timer();
 	static final int CLOSE = 0;
 	static final int OPEN = 1;
+	int openOrClose;
 	
 	public ChuckOperator(Robot caller, int openOrClose)
 	{
 		this.caller=caller;
+		this.openOrClose = openOrClose;
 	}
 
 	@Override
 	public void start() {
-		caller.chuck.set(DoubleSolenoid.Value.kForward);
+		DoubleSolenoid.Value valueToSet = (openOrClose == CLOSE) ? DoubleSolenoid.Value.kForward : DoubleSolenoid.Value.kReverse;
+		
+		caller.chuck.set(valueToSet);
 		clock.reset();
 		clock.start();
 	}

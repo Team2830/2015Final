@@ -174,16 +174,15 @@ public class Robot extends IterativeRobot {
     	
     	oneCTChuckClose1= new ChuckOperator (this, ChuckOperator.CLOSE);
     	oneCTChuckup1= new ElevatingChuck(this, .8, 1);
-    	oneCTTurn55= new Turn(this, 40, -.3);
-    	oneCTStrafe3= new StrafingClass (this, 10, .3);
-    	oneCTDrive4= new DriveForward (this, 4, .4);
+    	oneCTTurn55= new Turn(this, 40, -.5);
+    	oneCTStrafe3= new StrafingClass (this, 10, .6);
+    	oneCTDrive4= new DriveForward (this, 4, .8);
     	oneCTChuckDown= new ElevatingChuck(this, .1, -1);
     	oneCTChuckClose3 = new ChuckOperator (this, ChuckOperator.OPEN);
     	oneCTChuckDown1= new ElevatingChuck(this, .3, -1);
-    	
     	oneCTChuckClose2= new ChuckOperator (this, ChuckOperator.CLOSE);
      	oneCTChuckup2= new ElevatingChuck(this, .4, 1);
-   	oneCTStrafe55= new StrafingClass (this, 63,-.3);
+   	    oneCTStrafe55= new StrafingClass (this, 63,-.3);
     	
     	
     	justBackwards = new DriveForward (this, 55, -.3);
@@ -280,13 +279,12 @@ public class Robot extends IterativeRobot {
     				currentStep= oneCTChuckClose3;
     				break;
     			case 6:
-    				currentStep= oneCTChuckClose2;
-    				break;
+    				currentStep= oneCTChuckDown;
     			case 7:
     				currentStep= oneCTChuckDown;
     				break;
-    			case 8:
-    				currentStep= oneCTChuckDown;
+    			case 8: 
+    				currentStep= oneCTChuckClose2;
     				break;
     			case 9:
     				currentStep= oneCTChuckClose2;
