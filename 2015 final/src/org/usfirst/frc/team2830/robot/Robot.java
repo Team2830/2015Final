@@ -30,12 +30,14 @@ public class Robot extends IterativeRobot {
 	Joystick driverStick;
 	Joystick operatorStick;
 
-	
+	final int BURGLAR = 5;
 	final int DRIVE_BACK = 4;
 	final int ROBOT_LIFT_TOTECONTAINER=3;
 	final int ROBOT_LIFT_CONTAINER = 2;
 	final int ROBOT_LIFT_TOTE = 1;
 	final int DO_NOTHING = 0;
+	
+	
 	int mode = DO_NOTHING;
 	Step currentStep;
 	int stepNum = 0;
@@ -68,6 +70,11 @@ public class Robot extends IterativeRobot {
 	
 	public DoubleSolenoid chuck;
 	
+	public DoubleSolenoid burglar;
+	
+
+	
+	
 	ChuckOperator oneToteChuckClose;
 	ElevatingChuck oneToteLiftTote;
 	Turn oneToteTurn90;
@@ -98,6 +105,9 @@ public class Robot extends IterativeRobot {
 	DriveForward justBackwards;
 	Turn JBTurn90;
 
+	DriveForward burglarDrive50;
+	BurglarArm burglarExtendArm;
+	Turn burglarTurn90;
 	
 	PowerDistributionPanel pdp; 
 	/**
@@ -149,6 +159,8 @@ public class Robot extends IterativeRobot {
 			
 			elevatorTalon.ConfigFwdLimitSwitchNormallyOpen (true);
 			elevatorTalon.ConfigRevLimitSwitchNormallyOpen (true);
+			
+			burglar = new DoubleSolenoid(2,3);
      }
 
     public void autonomousInit()
@@ -189,6 +201,9 @@ public class Robot extends IterativeRobot {
     	justBackwards = new DriveForward (this, 55, -.7);
     	JBTurn90 = new Turn(this, 90,.6);
     	
+    	burglarDrive50 = new DriveForward (this, 50, -.5);
+    	burglarExtendArm = new BurglarArm (this, BurglarArm.OPEN);
+    	burglarTurn90= new Turn (this, 90, .6);
     	
     	
    mode= (int) SmartDashboard.getNumber("Autonomous");
@@ -310,7 +325,23 @@ public class Robot extends IterativeRobot {
     				currentStep = null;
     			}
     			break;
-    	}
+   		case BURGLAR:
+			switch(stepNum)
+			{
+			case 0:
+				currentStep= burglarDrive50;
+				break;
+			case 1:
+				currentStep= burglarExtendArm;
+				break;
+			case 2:
+				currentStep= burglarTurn90;
+				break;
+
+			default:
+				currentStep = null;
+			
+			}    	}
     	
     	System.out.println(currentStep);
     	
@@ -346,7 +377,8 @@ public class Robot extends IterativeRobot {
     double gyroCorrection = -.15;
     boolean lastButton2=true;
     boolean lastButton3=true;
-    double angleToFeed; 
+    double angleToFeed;
+	
 
     /**
      * all the teleop functions are initialized 
