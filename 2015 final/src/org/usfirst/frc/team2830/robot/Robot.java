@@ -360,7 +360,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic()
     {
-    	SmartDashboard.putNumber("Current", pdp.getCurrent(3));
+    	SmartDashboard.putNumber("Current", pdp.getCurrent(12));
     	
     
     	if (driverStick.getRawButton(4))
@@ -485,7 +485,7 @@ public class Robot extends IterativeRobot {
     	
     	if(!holdHeading)
     	{
-    		rotatingSpeed= driverStick.getAxis(Joystick.AxisType.kTwist);
+    		rotatingSpeed= squareMaintainSign (driverStick.getAxis(Joystick.AxisType.kTwist));
     	}	
     	
     	//robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, angleToFeed);
@@ -493,13 +493,22 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("rotatingSpeed",rotatingSpeed);
    	if (driverStick.getRawButton(1))
     	{
-        	robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX)*.3,driverStick.getAxis(Joystick.AxisType.kY)*.3,rotatingSpeed*.3, angleToFeed);
+        	robotDrive.mecanumDrive_Cartesian( squareMaintainSign (driverStick.getAxis(Joystick.AxisType.kX))*.3,squareMaintainSign (driverStick.getAxis(Joystick.AxisType.kY))*.3,rotatingSpeed*.3, angleToFeed);
     	}
     	else
     	{  
-    		robotDrive.mecanumDrive_Cartesian( driverStick.getAxis(Joystick.AxisType.kX),driverStick.getAxis(Joystick.AxisType.kY),rotatingSpeed, angleToFeed);
+    		robotDrive.mecanumDrive_Cartesian ( squareMaintainSign (driverStick.getAxis(Joystick.AxisType.kX)),squareMaintainSign (driverStick.getAxis(Joystick.AxisType.kY)),rotatingSpeed, angleToFeed);
     	} 
    	}
 
-    
+    public double squareMaintainSign (double joystick){
+    	if (joystick < 0)
+    	{
+    		
+    		return joystick*joystick*-1;
+    	}
+    	else{
+    		return joystick*joystick;
+    	}
+    }
 }
