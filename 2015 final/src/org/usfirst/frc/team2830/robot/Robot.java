@@ -421,9 +421,18 @@ public class Robot extends IterativeRobot {
     		
     	}else if(operatorStick.getRawButton(4))
     	{ 
-    		chuck.set(DoubleSolenoid.Value.kReverse);}
+    		chuck.set(DoubleSolenoid.Value.kReverse);
+    		}
     	
-
+    	if (operatorStick.getRawButton(3))
+    	{
+    		burglar.set(DoubleSolenoid.Value.kForward);
+    		
+    	}else if(operatorStick.getRawButton(2))
+    	{ 
+    		burglar.set(DoubleSolenoid.Value.kReverse);
+    		}
+    	
     }
     /**
      * This function is called periodically during test mode
