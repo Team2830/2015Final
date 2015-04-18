@@ -184,8 +184,7 @@ public class Robot extends IterativeRobot {
     	oneContainerDrive115 = new DriveForward(this, 120, -.8);
     	
     	
-    	oneCTChuckClose1= new ChuckOperator (this, ChuckOperator.CLOSE);
-    	oneCTChuckup1= new ElevatingChuck(this, .8, 1);
+     	oneCTChuckup1= new ElevatingChuck(this, .8, 1);
     	oneCTTurn55= new Turn(this, 40, -.5);
     	oneCTStrafe3= new StrafingClass (this, 10, .6);
     	oneCTDrive4= new DriveForward (this, 4, .8);
